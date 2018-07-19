@@ -1,0 +1,9 @@
+node_modules/
+.nyc_output
+.sass-cache
+
+.env
+.env-*
+
+.build
+.idea
