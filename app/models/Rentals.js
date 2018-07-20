@@ -2,31 +2,62 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const BlogSchema = new Schema({
-  title:{
+  buildingName:{
     type: String,
     required: true
   },
-  slug: {
+  monthlyRent: {
+    type: Number
+  },
+  depositAmount: {
+    type: Number
+  },
+  type: {
     type: String
   },
-  content: {
-    type: String,
-    default: "This is a test blog. Lorem ipsum text"
+  hasTiles: {
+    type: String
   },
-  description: {
-    type: String,
-    required: true
+  hasSink: {
+    type: String
+  },
+  hasBalcony: {
+    type: String
+  },
+  hasElectricity: {
+    type: String
+  },
+  noWindows: {
+    type: Number
+  },
+  noTaps: {
+    type: Number
+  },
+  noSockets: {
+    type: Number
+  },
+  condition: {
+    type: String
+  },
+  contactPersonPosition: {
+    type: String
+  },
+  location: {
+    type: String
+  },
+  landlord: {
+    type: String
+  },
+  reviews: {
+    type: String
   },
   imageUrl: {
     type: String,
     default: "https://www.emberjs.com/images/tomsters/emberconf-2017-fcff003f.png"
   },
-  imageCpation: {
-    type: String,
-    default: "https://vignette.wikia.nocookie.net/epic-rap-battles-of-cartoons/images/c/cb/SpongeBob.png/revision/latest?cb=20131030015532"
-  },
-  category: {
-    type: String
+  verified: {
+    type: Boolean,
+    default: false
   },
   status: {
     type: Number,

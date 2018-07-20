@@ -18,14 +18,11 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
   const rental = new Rental(req.body.rental);
-  console.log(rental)
   rental.save().then( rental => {
     if (rental)
-      Category.findOneAndUpdate({ name: rental.category }, { $inc: { rentals: 1} }, { new: true }).then( category => {
-        res.json({status: 'ok', rental, category});
-      })
+      res.json({rental});
   }).catch( errors =>{
-    res.status(404).json({message: errors.message});
+    res.status(505).json({message: errors.message});
   });
 });
 
