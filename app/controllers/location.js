@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const Location = mongoose.model('Location');
+var ObjectId = require('mongodb').ObjectID;
 
 module.exports = (app) => {
   app.use('/api/v1/locations', router);
@@ -31,6 +32,16 @@ router.post('/', (req, res) => {
   location.save().then( location => {
     if (location)
       res.json({location});
+  }).catch( errors =>{
+    res.status(404).json({message: errors.message});
+  });
+});
+
+router.get('/:id', (req, res) => {
+  console.log('/rentals get one')
+  Location.find({_id: ObjectId(req.params.id)}).then( location => {
+    if (location)
+      res.json({ location });
   }).catch( errors =>{
     res.status(404).json({message: errors.message});
   });

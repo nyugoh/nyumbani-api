@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const Rental = mongoose.model('Rental');
+var ObjectId = require('mongodb').ObjectID;
+
 
 module.exports = (app) => {
   app.use('/api/v1/rentals', router);
@@ -26,12 +28,13 @@ router.post('/', (req, res) => {
   });
 });
 
-router.get('/categories/:category', (req, res) => {
-  Rental.find({ category: req.params.category }).then(rentals => {
-    if (rentals)
-      res.json({ rentals });
-  }).catch(errors => {
-    res.status(404).json({ message: errors.message });
+router.get('/:id', (req, res) => {
+  console.log('/rentals get one')
+  Rental.find({_id: ObjectId(req.params.id)}).then( rental => {
+    if (rental)
+      res.json({ rental });
+  }).catch( errors =>{
+    res.status(404).json({message: errors.message});
   });
 });
 
