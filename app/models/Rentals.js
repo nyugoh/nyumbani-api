@@ -30,6 +30,9 @@ const BlogSchema = new Schema({
   noWindows: {
     type: Number
   },
+  bedrooms: {
+    type: Number
+  },
   noTaps: {
     type: Number
   },
