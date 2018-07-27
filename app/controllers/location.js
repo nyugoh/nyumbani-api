@@ -38,12 +38,21 @@ router.post('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-  console.log('/rentals get one')
   Location.find({_id: ObjectId(req.params.id)}).then( location => {
     if (location)
       res.json({ location });
   }).catch( errors =>{
     res.status(400).json({message: errors.message});
+  });
+});
+
+router.put('/:id', (req, res) => {
+  Location.findByIdAndUpdate(ObjectId(req.params.id), req.body.location, { new: true }).then( location => {
+    if (location)
+      res.json({ location });
+  }).catch( errors =>{
+    console.log(errors)
+    res.status(400).json({errors: errors.message});
   });
 });
 
