@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const Rental = mongoose.model('Rental');
 var ObjectId = require('mongodb').ObjectID;
+import { auth } from '../utils/auth';
 
 
 module.exports = (app) => {
@@ -10,7 +11,6 @@ module.exports = (app) => {
 };
 
 router.get('/', (req, res) => {
-  console.log(req.headers);
   Rental.find().then( rentals => {
     if (rentals)
       res.json({ rentals});
@@ -19,7 +19,7 @@ router.get('/', (req, res) => {
   });
 });
 
-router.post('/', (req, res) => {
+router.post('/', auth, (req, res) => {
   const rental = new Rental(req.body.rental);
   rental.save().then( rental => {
     if (rental)
@@ -39,7 +39,7 @@ router.get('/:id', (req, res) => {
   });
 });
 
-router.put('/edit', (req, res) => {
+router.put('/edit', auth, (req, res) => {
   Rental.findByIdAndUpdate(req.body.rental._id, req.body.rental, { new: true }).then( rental => {
     if (rental)
       res.json({status: 'ok', rental});
