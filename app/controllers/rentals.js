@@ -10,6 +10,7 @@ module.exports = (app) => {
 };
 
 router.get('/', (req, res) => {
+  console.log(req.headers);
   Rental.find().then( rentals => {
     if (rentals)
       res.json({ rentals});

@@ -22,17 +22,25 @@ router.get('/', (req, res) => {
     if (landlords)
       res.json({ landlords});
   }).catch( errors =>{
-    res.status(404).json({message: errors.message});
+    res.status(400).json({message: errors.message});
   });
 });
 
 router.post('/', (req, res) => {
   const landlord = new Landlord(req.body.landlord);
-  landlord.save().then( landlord => {
-    if (landlord)
-      res.json({landlord});
-  }).catch( errors =>{
-    res.status(404).json({message: errors.message});
+  landlord.generateHash(landlord.password).then( hash => {
+    landlord.password = hash;
+    landlord.save().then( landlord => {
+      if (landlord)
+        res.json({landlord});
+    }).catch( error =>{
+      if(error.message.indexOf('username_1') > -1)
+        res.status(400).json({error: 'User already exists'});
+      else
+        res.status(400).json({error: 'User can\'t be saved'});
+    });
+  }).catch(error => {
+    res.status(400).json({ error: 'Fatal error occurred'});
   });
 });
 
@@ -41,10 +49,10 @@ router.delete('/delete/:id', (req, res) => {
     if (response)
       res.json({ id: req.params.id });
   }).catch( errors =>{
-    res.status(404).json({ message: errors.message });
+    res.status(400).json({ message: errors.message });
   });
 });
 
 router.get('/*', (req, res) => {
-  res.status(505).json({ message: 'You have hit a wild-route' });
+  res.status(404).json({ message: 'You have hit a wild-route' });
 });
