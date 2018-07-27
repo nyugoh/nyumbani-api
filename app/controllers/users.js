@@ -12,8 +12,14 @@ router.post('/', (req, res) => {
   let { username, password } = req.body;
   Landlord.find({ email: username }).then( landlords => {
     if (landlords.length > 0) {
-      let token = jwt.sign({ email: 'some@gmail.com'}, process.env.JWT_TOKEN);
-      res.json({ access_token: 'aksdjaskl129390asdapsd90' });
+      landlords[0].compareHash(landlords[0].password, password).then( isMatch => {
+        if (isMatch){
+          let token = jwt.sign({ email: landlords[0].email}, process.env.JWT_TOKEN);
+          res.json({ access_token: token });
+        } else {
+          res.status(400).json({error: 'Invalid credentials'});
+        }
+      })
     } else {
       res.status(400).json({error: 'User does\'t exist'});
     }
