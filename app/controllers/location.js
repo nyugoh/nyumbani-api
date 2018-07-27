@@ -23,7 +23,7 @@ router.get('/', (req, res) => {
     if (locations)
       res.json({ locations});
   }).catch( errors =>{
-    res.status(404).json({message: errors.message});
+    res.status(400).json({message: errors.message});
   });
 });
 
@@ -33,7 +33,7 @@ router.post('/', (req, res) => {
     if (location)
       res.json({location});
   }).catch( errors =>{
-    res.status(404).json({message: errors.message});
+    res.status(400).json({message: errors.message});
   });
 });
 
@@ -43,16 +43,17 @@ router.get('/:id', (req, res) => {
     if (location)
       res.json({ location });
   }).catch( errors =>{
-    res.status(404).json({message: errors.message});
+    res.status(400).json({message: errors.message});
   });
 });
 
-router.delete('/delete/:id', (req, res) => {
+router.delete('/:id', (req, res) => {
   Location.findByIdAndRemove(req.params.id).then( response => {
+    console.log(response)
     if (response)
       res.json({ id: req.params.id });
   }).catch( errors =>{
-    res.status(404).json({ message: errors.message });
+    res.status(400).json({ errors: errors.message });
   });
 });
 

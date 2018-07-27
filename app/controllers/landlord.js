@@ -34,6 +34,7 @@ router.post('/', (req, res) => {
       if (landlord)
         res.json({landlord});
     }).catch( error =>{
+      console.log(error)
       if(error.message.indexOf('username_1') > -1)
         res.status(400).json({error: 'User already exists'});
       else
